@@ -57,7 +57,7 @@ executable word-ladders
   -- other-extensions:    
   
   -- Other library packages from which modules are imported.
-  build-depends:       base >=4.6 && <4.7,
+  build-depends:       base >=4.6 && <5,
                        transformers,
                        containers,
                        unordered-containers,
