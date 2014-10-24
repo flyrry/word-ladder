@@ -16,10 +16,12 @@ distance a b = foldr (\(la,lb) total -> if (la == lb) then total else total+1) 0
 buildGraph :: [String] -> WordGraph
 buildGraph ws = (S.fromList ws, ws)
 
+adjacent :: WordGraph -> String -> S.Set String
+adjacent graph node = if (S.member node (fst graph))
+                      then S.fromList $ filter (\w -> distance w node == 1) (snd graph)
+                      else S.empty
+
 shortestPath :: WordGraph -> String -> String -> Maybe [String]
 shortestPath graph start finish =
-  A.aStar fngraph (\_ _ -> 1) (\w -> distance w finish) (\w -> w == finish) start
-    where fngraph v = if (S.member v (fst graph))
-                      then S.fromList $ filter (\wrd -> distance wrd v == 1) (snd graph)
-                      else S.empty
+  A.aStar (adjacent graph) (\_ _ -> 1) (\w -> distance w finish) (\w -> w == finish) start
 
